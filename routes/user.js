@@ -41,6 +41,20 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// read all users ...
+// get user ...
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      const { password, updatedAt, ...other } = user._doc;
+
+      res.status(200).json(other);
+    } else {
+      return res.status(404).json("user dosen't exist");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
